@@ -1,7 +1,2 @@
-word = "banana"
-count = 0
-for letter in word:
-    if letter == 'a':
-        count +=1
-
-print(count)
+lst = [x**2 for x in range(0,11)]
+print(lst)

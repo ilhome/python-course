@@ -7,11 +7,13 @@ def get_leather_scraps():
         "Shortsword",
     ]
 
-    item_index = 0
+    for item in inventory:
+        if item == "Leather Scraps":
+            return item
 
-    return inventory[item_index]
+    return None
 
-from main import get_leather_scraps
+#from main import get_leather_scraps
 
 run_cases = [
     ("Leather Scraps",),

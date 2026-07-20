@@ -1,12 +1,11 @@
 def get_character_record(name, server, level, rank):
-    new_dict = {
+    return {
         "name": name,
         "server": server,
         "level": level,
         "rank": rank,
-        "id": f"{name}#{server}"
+        "id": f"{name}#{server}",
     }
-    return new_dict
 
 run_cases = [
     (
@@ -109,57 +108,53 @@ submit_cases = run_cases + [
 def test(name, server, level, rank, expected_output):
     try:
         result = get_character_record(name, server, level, rank)
-        for key, value in expected_output.items():
-            print(f"Expected: {key}: {value}")
-            print(f"Actual:   {key}: {result[key]}\n")
-            if result[key] != value:
-                if type(result[key]) is not type(value):
-                    print(f"'{key}' values are different types!")
+        for key, expected in expected_output.items():
+            actual = result[key]
+            print(f"Expected: {key}: {expected}")
+            print(f"Actual:   {key}: {actual}\n")
+            if actual != expected:
+                if type(actual) is not type(expected):
                     print(
-                        f"Expected '{key}' to be of type {type(value).__name__}, but got {type(result[key]).__name__}"
+                        f"'{key}' values are different types! Expected {type(expected).__name__}, got {type(actual).__name__}"
                     )
                 print("Fail")
                 return False
+
         if result != expected_output:
             print("Result object is incorrect:")
             for key, value in result.items():
                 print(f" * {key}: {value}")
             print("Fail")
             return False
+
         print("Pass")
         return True
-    except Exception as e:
-        print(f"Exception: {str(e)}")
+    except Exception as exc:
+        print(f"Exception: {exc}")
         print("Fail")
         return False
 
 
 def main():
-    index = 0
-    passed = 0
-    failed = 0
+    passed = failed = 0
     skipped = len(submit_cases) - len(test_cases)
-    for test_case in test_cases:
-        index += 1
+
+    for index, test_case in enumerate(test_cases, start=1):
         print("---------------------------------")
         print(f"Test Case #{index}\n")
-        correct = test(*test_case)
-        if correct:
+        if test(*test_case):
             passed += 1
         else:
             failed += 1
-    if failed == 0:
-        print("============= PASS ==============")
-    else:
-        print("============= FAIL ==============")
-    if skipped > 0:
+
+    print("============= PASS ==============" if failed == 0 else "============= FAIL ==============")
+    if skipped:
         print(f"{passed} passed, {failed} failed, {skipped} skipped")
     else:
         print(f"{passed} passed, {failed} failed")
 
 
-test_cases = submit_cases
-if "__RUN__" in globals():
-    test_cases = run_cases
+test_cases = run_cases if "__RUN__" in globals() else submit_cases
 
-main()
+if __name__ == "__main__":
+    main()

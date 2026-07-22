@@ -57,6 +57,11 @@ def test(input, expected_output):
     return False
 
 
+test_cases = submit_cases
+if "__RUN__" in globals():
+    test_cases = run_cases
+
+
 def main():
     passed = 0
     failed = 0
@@ -76,9 +81,5 @@ def main():
     else:
         print(f"{passed} passed, {failed} failed")
 
-
-test_cases = submit_cases
-if "__RUN__" in globals():
-    test_cases = run_cases
 
 main()
